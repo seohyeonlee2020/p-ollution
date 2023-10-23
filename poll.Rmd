@@ -1,0 +1,116 @@
+---
+title: "disease_analysis"
+output: pdf_document
+date: "2023-10-22"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(tidyverse)
+library(broom)
+```
+
+## R Markdown
+
+```{r} 
+# read in and edit data sets 
+# disease
+disease <- read_csv("Downloads/disease.csv", 
+    col_types = cols(...1 = col_skip(), `2020.01 num_patients` = col_double(), 
+        len_hospital_stay...5 = col_double(), 
+        num_insurance_claims...6 = col_double(), 
+        total_insurance_cost...7 = col_double(), 
+        outpocket_cost...8 = col_double(), 
+        `2020.02 num_patients` = col_double(), 
+        len_hospital_stay...10 = col_double(), 
+        num_insurance_claims...11 = col_double(), 
+        total_insurance_cost...12 = col_double(), 
+        outpocket_cost...13 = col_double(), 
+        region...184 = col_skip(), disease_code...185 = col_skip()))
+# no2
+no2 <- read_csv("Downloads/no2.csv", col_types = cols(Daegu = col_double(), 
+    Gangwon = col_double(), Jeju = col_double()))
+no2_cleaned <- na.omit(no2)
+colnames(no2_cleaned)[1] <- "X"
+
+# co
+co <- read.csv("Downloads/co.csv")
+
+# ozone, same as no2 ??? 
+ozone <- read_csv("Downloads/ozone.csv", 
+    col_types = cols(Daegu = col_double(), 
+        Gangwon = col_double(), Jeju = col_double()), 
+    skip = 1)
+colnames(ozone)[1] <- "date"
+ozone_cleaned <- na.omit(ozone)
+
+
+# pm10
+pm10 <- read_csv("Downloads/pm10.csv", col_types = cols(Daejeon = col_double(), 
+    Gangwon = col_double()))
+pm10_cleaned <- na.omit(pm10)
+
+# sox
+sox <- read.csv("Downloads/sox.csv")
+```
+
+
+```{r}
+# find summary stats to see difference in diseases 
+summary(disease)
+
+# filter 
+disease_J411 <- disease %>%
+  filter(disease_code...2 == "J411")
+
+```
+
+
+```{r}
+# correlation analysis all time vs all regions
+cor(co$X, rowMeans(co[, -1]))
+cor(sox$X, rowMeans(sox[, -1]))
+cor(no2_cleaned$X, rowMeans(no2_cleaned[, -1]))
+cor(pm10_cleaned$...1, rowMeans(pm10_cleaned[, -1]))
+
+
+# gives you the correlation individually for each region instead of average ^
+correlations <- lapply(co[, -1], function(x) cor(co$X, x))
+
+
+# merge co, no2, sox to see if any relationship between them 
+# correlation 
+co_sox <- left_join(co, sox, by = join_by(X == X))
+cor(co_sox$Seoul.x, co_sox$Seoul.y)
+# linear regression 
+lm_Seoul <- lm(co_sox$Seoul.x ~ co_sox$Seoul.y)
+summary(lm_Seoul)
+```
+^ from these tests it seems there is no / not strong relationship between time and air pollutants for each of these regions 
+although found a paper that has already analyzed air pollution and urban head island , found a positive relationship with interactions with them during seasons
+
+CO and SOX have some relationship between them 
+
+```{r}
+# ANOVA to see if there are stat sig diff in disease rates among regions , no there isnt i think
+
+# ANOVA to see if differences in diff groups among the time for diff disease codes 
+# aov(, data = disease)
+
+# checking num of patients between diseases 
+
+
+# tukey HSD to check which regions are diff
+```
+* check if data is normal  
+
+
+# calculate disease incidence 
+1. num patients for each disease code in each region and time period (we have)
+2. calc population at risk for it 
+3. incidence rate = number of cases / total pop at risk then * 100,000
+seoul pop = 9.7 mil
+
