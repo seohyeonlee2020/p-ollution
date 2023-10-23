@@ -5,4 +5,4 @@ names = ['mucocorpulent chronic bronchitis', 'pulmonary embolism without mention
 df = pd.DataFrame(names, index=diseases, columns=['disease_name'])
 print(df)
 
-df.to_csv('data/disease_code_conversion.csv')
+df.to_csv('data/disease_code_conversion.csv') 
