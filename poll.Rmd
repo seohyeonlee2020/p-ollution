@@ -16,6 +16,7 @@ library(broom)
 ## R Markdown
 
 ```{r} 
+#*
 # read in and edit data sets 
 # disease
 disease <- read_csv("Downloads/disease.csv", 
@@ -66,10 +67,42 @@ summary(disease)
 disease_J411 <- disease %>%
   filter(disease_code...2 == "J411")
 
+# look at only number of patients then sort for region for each year 
+disease_J411_2020 <- select(disease_J411, contains("region") | contains("2020"))
+# compare air pollutants to each month to see seasonal and total overall to see if there is a rise in disease with air pollutant levels 
+
+# transpose to compare to air pollutants 
+disease_J411_2020_t <- as.data.frame(t(disease_J411_2020))
+disease_J411_2020_t<-disease_J411_2020_t[-1,]
+colnames(disease_J411_2020_t) <- disease_J411_2020$region...3
+disease_J411_2020_t[] <- lapply(disease_J411_2020_t, as.numeric)
+ozone_cleaned_2020 <- ozone_cleaned[(34:45),]
+
+# test correlation for seasons between air pollutants and 2020 number of patients 
+
+
+# spring 
+cor.test(ozone_cleaned_2020$Seoul[3:5], disease_J411_2020_t$Seoul[3:5])
+
+# summer 
+cor.test(ozone_cleaned_2020$Seoul[6:8], disease_J411_2020_t$Seoul[6:8])
+
+# fall 
+cor.test(ozone_cleaned_2020$Seoul[9:11], disease_J411_2020_t$Seoul[9:11])
+
+# winter 
+
+
+
+
 ```
+
+no correlation between season and ozone
+
 
 
 ```{r}
+#*
 # correlation analysis all time vs all regions
 cor(co$X, rowMeans(co[, -1]))
 cor(sox$X, rowMeans(sox[, -1]))
@@ -84,7 +117,12 @@ correlations <- lapply(co[, -1], function(x) cor(co$X, x))
 # merge co, no2, sox to see if any relationship between them 
 # correlation 
 co_sox <- left_join(co, sox, by = join_by(X == X))
-cor(co_sox$Seoul.x, co_sox$Seoul.y)
+
+cor(co_sox$Gwangju.x, co_sox$Gwangju.y)
+
+# look at seasonal correlation 
+cor(co_sox$Busan.x[6:8], co_sox$Busan.y[6:8])
+    
 # linear regression 
 lm_Seoul <- lm(co_sox$Seoul.x ~ co_sox$Seoul.y)
 summary(lm_Seoul)
@@ -93,19 +131,24 @@ summary(lm_Seoul)
 although found a paper that has already analyzed air pollution and urban head island , found a positive relationship with interactions with them during seasons
 
 CO and SOX have some relationship between them 
+^ seasonal relationship, it varies for each region, so must specifically analyze that !!!!!!
+
 
 ```{r}
 # ANOVA to see if there are stat sig diff in disease rates among regions , no there isnt i think
+
+# aov(disease_code...2 ~ 2020.01 num_patients , data = disease)
 
 # ANOVA to see if differences in diff groups among the time for diff disease codes 
 # aov(, data = disease)
 
 # checking num of patients between diseases 
 
-
 # tukey HSD to check which regions are diff
 ```
-* check if data is normal  
+
+- check if data is normal for ANOVA
+
 
 
 # calculate disease incidence 

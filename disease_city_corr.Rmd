@@ -1,0 +1,115 @@
+---
+title: "S. Korea City/Disease Correlation"
+author: "Annika Gaglani"
+date: "2023-10-29"
+output: html_document
+---
+
+#install packages and read them into library
+```{r}
+install.packages("tidyverse")
+install.packages("modelr")
+install.packages("dplyr")
+install.packages("ggplot2")
+library(tidyverse)
+library(modelr)
+library(dplyr)
+library(ggplot2)
+options(na.action = na.warn)
+```
+
+#import data and clean up
+```{r}
+#CO
+co_data <- read.csv("co.csv")
+co_data
+#SOx
+sox_data <- read.csv("sox.csv")
+sox_data
+```
+```{r}
+#population by city data
+pop_data <- read.csv("P-ai Population by City Data - cleaned.csv")
+pop_data
+```
+
+#joins for Incheon
+```{r}
+#CO and population for Incheon
+incheon_co_pop_join <- left_join(co_data, pop_data, by = "X") %>% rename("Incheon_pol" = Incheon.x, "Incheon_pop" = Incheon.y)
+incheon_co_pop_join
+```
+
+```{r}
+#SOx and pollution for Incheon
+incheon_sox_pop_join <- left_join(sox_data, pop_data, by = "X") %>% rename("Incheon_pol" = Incheon.x, "Incheon_pop" = Incheon.y)
+incheon_sox_pop_join
+```
+
+#joins for Seoul
+```{r}
+#CO and population for Seoul
+seoul_co_pop_join <- left_join(co_data, pop_data, by = "X") %>% rename("Seoul_pol" = Seoul.x, "Seoul_pop" = Seoul.y)
+seoul_co_pop_join
+```
+
+```{r}
+#SOx and populationf for Seoul
+seoul_sox_pop_join <- left_join(sox_data, pop_data, by = "X") %>% rename("Seoul_pol" = Seoul.x, "Seoul_pop" = Seoul.y)
+seoul_sox_pop_join
+```
+
+
+#models for Incheon
+```{r}
+#CO
+incheon_co_mod <- lm(Incheon_pol ~ Incheon_pop, data = incheon_co_pop_join)
+incheon_co_mod
+
+incheon_co_pop_join %>%
+  ggplot() +
+  geom_col(aes(x = Incheon_pop, y = Incheon_pol)) #+
+  #geom_abline(aes(intercept = incheon_co_mod$coefficients[1],
+                  #slope = incheon_co_mod$coefficients[2]), color = "red")
+```
+Not showing much of a correlation between CO and population (lots of fluctuation), thinking that COVID might be a confounding variable.
+
+```{r}
+#SOx
+incheon_sox_mod <- lm(Incheon_pol ~ Incheon_pop, data = incheon_sox_pop_join)
+incheon_sox_mod
+
+incheon_sox_pop_join %>%
+  ggplot() +
+  geom_col(aes(x = Incheon_pop, y = Incheon_pol)) #+
+  #geom_abline(aes(intercept = incheon_sox_mod$coefficients[1],
+                  #slope = incheon_sox_mod$coefficients[2]), color = "red")
+```
+Tried changing the bin width on these plots and it didn't make anything more clear.
+
+Again not showing much of a correlation for SOx. Worth noting that there is a outlier on the high side in both CO and SOx around the same time period. Also viewing as a bar graph instead of a scatterplot shows that there is a slight correlation between SOx and population - Incheon's population has been increasing so there has been a slight increase in pollution. 
+
+#models for Seoul
+```{r}
+#CO
+seoul_co_mod <- lm(Seoul_pol ~ Seoul_pop, data = seoul_co_pop_join)
+seoul_co_mod
+
+seoul_co_pop_join %>%
+  ggplot() +
+  geom_col(aes(x = Seoul_pop, y = Seoul_pol)) #+
+  #geom_abline(aes(intercept = seoul_co_mod$coefficients[1],
+                  #slope = seoul_co_mod$coefficients[2]), color = "red")
+```
+There's a lot of fluctuation but also showing a slight increase trend. 
+
+```{r}
+#SOx
+seoul_sox_mod <- lm(Seoul_pol ~ Seoul_pop, data = seoul_sox_pop_join)
+seoul_sox_mod
+
+seoul_sox_pop_join %>%
+  ggplot() +
+  geom_col(aes(x = Seoul_pol, y = Seoul_pop))
+```
+Not showing much of a correlation either??
