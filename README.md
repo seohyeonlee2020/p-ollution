@@ -1,4 +1,4 @@
-# p-ollution: Air Pollution and Public Health Outcomes
+# p-ollution: How Does Air Pollution Impact Public Health?
 
 Project Goals:
 
