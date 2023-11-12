@@ -1,0 +1,11 @@
+{
+"DESCRIPTION" : {"ITEM_UNIT":"측정단위","ITEM_DECIMAL":"소수점 자리 수","ITEM_ALARM_YELLOW":"범례-노랑","USE_YN":"사용여부","ITEM_DISPLAY_MAIN":"메인화면 표시","ITEM_COMM_SYMBOL":"통신기호","ITEM_ALARM_BLUE":"범례-파랑","ITEM_SHORT_NAME":"측정항목 명(줄임 명칭)","ITEM_CODE":"측정항목 코드","ITEM_ALARM_RED":"범례-빨강","DISPLAY_NO":"화면 정렬 순서","ITEM_ALARM_GREEN":"범례-녹색"},
+"DATA" : [
+{"item_alarm_red":1.000,"display_no":10,"item_comm_symbol":"SO2","item_display_main":"Y","item_code":1,"item_short_name":"SO2","item_alarm_blue":0.020,"item_decimal":4,"item_alarm_green":0.050,"use_yn":"Y","item_unit":"ppm","item_alarm_yellow":0.150},
+{"item_alarm_red":2.000,"display_no":6,"item_comm_symbol":"NO2","item_display_main":"Y","item_code":3,"item_short_name":"NO2","item_alarm_blue":0.030,"item_decimal":4,"item_alarm_green":0.060,"use_yn":"Y","item_unit":"ppm","item_alarm_yellow":0.200},
+{"item_alarm_red":50.000,"display_no":8,"item_comm_symbol":"COb","item_display_main":"Y","item_code":5,"item_short_name":"CO","item_alarm_blue":2.000,"item_decimal":2,"item_alarm_green":9.000,"use_yn":"Y","item_unit":"ppm","item_alarm_yellow":15.000},
+{"item_alarm_red":0.500,"display_no":9,"item_comm_symbol":"O3b","item_display_main":"Y","item_code":6,"item_short_name":"O3","item_alarm_blue":0.030,"item_decimal":4,"item_alarm_green":0.090,"use_yn":"Y","item_unit":"ppm","item_alarm_yellow":0.150},
+{"item_alarm_red":600.000,"display_no":2,"item_comm_symbol":"PMb","item_display_main":"Y","item_code":8,"item_short_name":"PM10","item_alarm_blue":30.000,"item_decimal":0,"item_alarm_green":80.000,"use_yn":"Y","item_unit":"㎍/㎥","item_alarm_yellow":150.000},
+{"item_alarm_red":500.000,"display_no":1,"item_comm_symbol":"PM2","item_display_main":"Y","item_code":9,"item_short_name":"PM2.5","item_alarm_blue":15.000,"item_decimal":0,"item_alarm_green":35.000,"use_yn":"Y","item_unit":"㎍/㎥","item_alarm_yellow":75.000}
+]
+}
