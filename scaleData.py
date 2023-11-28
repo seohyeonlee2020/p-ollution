@@ -74,3 +74,5 @@ def avgOfColumns(df):
 
 
 
+
+
