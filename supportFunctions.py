@@ -47,15 +47,15 @@ def loadFiles(directory):
     
     return df_dict
     
+print('running support code')
+# dct = loadFiles('data/air_data')
+# print(dct.keys())
 
-dct = loadFiles('data/air_data')
-print(dct.keys())
 
-
-for title, item in dct.items():
-    df_item = cleanData(dct['no2'])
-#print(no_c.head())
-    print(df_item.select_dtypes(include='O').sum())
+# for title, item in dct.items():
+#     df_item = cleanData(dct['no2'])
+# #print(no_c.head())
+#     print(df_item.select_dtypes(include='O').sum())
 
 
 
