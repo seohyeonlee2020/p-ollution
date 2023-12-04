@@ -27,6 +27,7 @@ def cleanData(df):
     df = df.apply(lambda x: x.str.replace('*', '') if x.dtype == 'O' else x)
     # e: 추정치, p: 잠정치, -: 자료없음, ...: 미상자료, x: 비밀보호, ▽: 시계열 불연속
     # If you want to convert the columns to numeric after removing asterisks
+    df = df.rename({'Chungbuk':'Choongbuk', 'Chungnam':'Choongnam'}, axis = 1)
     cleaned_df = df.apply(pd.to_numeric, errors='ignore')
     print('cleaned!')
     return cleaned_df
