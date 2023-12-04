@@ -1,7 +1,10 @@
 import pandas as pd
+import geopandas as gpd
 import os
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
+import folium
+from folium import Choropleth
 
 def loadDataFromDirectory(directory):
     #open everything in given directory
@@ -36,9 +39,6 @@ def loadDataFromDirectory(directory):
             #print(title[:4])
     return df_list, title_list
 
-
-
-
 def scaleData(df, idx):
     scaler = MinMaxScaler()
     df_scaled = scaler.fit_transform(df.to_numpy())
@@ -49,6 +49,32 @@ def scaleData(df, idx):
 
 def avgOfColumns(df):
     return df.mean()
+
+def loadKoreanMap():
+    korea_provinces = gpd.read_file('/Users/seohyeonlee/p-ollution/data/korea_provinces.json')
+    province_fullname = korea_provinces['name_eng']
+    #print(province_fullname)
+    province_short = ['Seoul', 'Busan', 'Daegu', 'Incheon', 'Gwangju', 'Dajeon', 'Ulsan', 'Sejong', 'Gyeonggi', 'Gangwon', 'Chungbuk', 'Chungnam', 'Jeonbuk', 'Jeonnam', 'Gyeongbuk', 'Gyeongnam', 'Jeju' ]
+    province_name_conversion = dict(zip(province_fullname, province_short))
+    
+    #id for base and choropleth map
+    korea_provinces['province'] = pd.Series(province_short)
+    korea_province_map = korea_provinces[["province", "geometry"]].set_index("province")
+    print(korea_province_map)
+
+    return korea_province_map
+
+def add_choropleth_to_basemap(base_map, pollutant_data, your_map):
+    # 망원시장 37.5560° N, 126.9064° E
+    #print(data_dict[pollutant])
+    Choropleth(geo_data=your_map.__geo_interface__, 
+            data=pollutant_data, 
+            key_on="feature.id", 
+            fill_color='YlGnBu', 
+            legend_name=pollutant,
+            ).add_to(base_map)
+    base_map
+    return base_map
 
 
 
