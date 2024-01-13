@@ -2,9 +2,6 @@
 
 Project Goals:
 
- - Create website outlining the relationship between air pollution and long term health outcomes (ex: chronic illness diagnoses, impact on lifespan, etc).
- - Identify “hotspots” in the target region where public health is seriously impacted by air pollution. Explore plausible explanations (ex: industrial plants, increase in construction) and utilize neural networks to make forecasts
- - Make all data insights and the website itself accessible to people with various disabilities. Incorporate feedback from disabled people in a respectful way. 
-
+Climate change meets tech meets public health. Air pollution is a serious problem in many parts of the world whose damage is worsened by climate change.  P-ollution draws from publicly available data to quantify the health damages caused by air pollutants in Seoul, South Korea and Ontario, CA, US. 
 
 
